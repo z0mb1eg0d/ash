@@ -29,7 +29,7 @@ cur = con.cursor()
 @app.route('/index', methods=['GET', 'POST'])
 @login_required 
 def index():
-     cur.execute('select username, email, type_u from users where id = %s',(current_user.id,))
+     cur.execute('select username, email, type_u from Пользователи where id = %s',(current_user.id,))
      user1 = cur.fetchone()
      user = {'username' : user1[0], 'role' : user1[2]}
      form = IndexForm()
@@ -84,7 +84,7 @@ def login():
     user = [None,None]
     form = LoginForm()
     if form.validate_on_submit():
-        cur.execute('select id,email,pass_hash,type_u from users where email = %s',(form.username.data,))
+        cur.execute('select id,email,pass_hash,type_u from Пользователи where email = %s',(form.username.data,))
         user = cur.fetchone()
         if user is None:
            flash('Такого пользователя не существует!')
@@ -107,7 +107,7 @@ def register():
    user = [None,None]
    form = RegisterForm()
    if form.validate_on_submit():
-        cur.execute('select email from users where email = %s;',(form.email.data,))
+        cur.execute('select email from Пользователи where email = %s;',(form.email.data,))
         check_user = cur.fetchone()
         if check_user is not None:
            flash ('Эта почта уже зарегистрирована!')         
@@ -131,8 +131,8 @@ def register():
             else:
              cur.execute('insert into Студент (ФИО, №Зачетки, №Группы) values (%s,%s,%s);',(form.username.data,form.record_num.data,form.group_num.data))
              con.commit()
-        cur.execute('insert into users (username, pass_hash, email, type_u) values (%s,%s,%s,%s);',(form.username.data,generate_password_hash(form.password1.data),form.email.data,form.role.data))
-        cur.execute('select id from users where email = %s',(form.username.data,))
+        cur.execute('insert into Пользователи (username, pass_hash, email, type_u) values (%s,%s,%s,%s);',(form.username.data,generate_password_hash(form.password1.data),form.email.data,form.role.data))
+        cur.execute('select id from Пользователи where email = %s',(form.username.data,))
         user = cur.fetchone()
         con.commit()
         id = user
@@ -150,7 +150,7 @@ def add_work():
     theme_conf = cur.fetchall()
     cur.execute('select НазваниеКонференции, Номер from ПроведениеКонференции')
     conf_num = cur.fetchall()
-    cur.execute('select username, email, type_u from users where id = %s',(current_user.id,))
+    cur.execute('select username, email, type_u from Пользователи where id = %s',(current_user.id,))
     user1 = cur.fetchone()
     user = {'username' : user1[0], 'role' : user1[2]}
     form = AddWorkForm()
@@ -173,7 +173,7 @@ def add_work():
 @app.route('/add_conference', methods=['GET', 'POST'])
 @login_required
 def add_conference():
-    cur.execute('select username, email, type_u from users where id = %s',(current_user.id,))
+    cur.execute('select username, email, type_u from Пользователи where id = %s',(current_user.id,))
     user1 = cur.fetchone()
     user = {'username' : user1[0], 'role' : user1[2]}
     form = AddConferenceForm()
@@ -199,10 +199,10 @@ def add_conference():
 @app.route('/works', methods=['GET', 'POST'])
 @login_required 
 def works():     
-     cur.execute('select username, email, type_u from users where id = %s',(current_user.id,))
+     cur.execute('select username, email, type_u from Пользователи where id = %s',(current_user.id,))
      user1 = cur.fetchone()
      user = {'username' : user1[0], 'role' : user1[2]}
-     cur.execute('select type_u,username from users where id=%s',(current_user.id,))
+     cur.execute('select type_u,username from Пользователи where id=%s',(current_user.id,))
      r = cur.fetchall()
      if r[0][0] == 'Студент':
       cur.execute('select №Зачетки from Студент where ФИО = %s',(r[0][1],))
@@ -215,7 +215,7 @@ def works():
      w = cur.fetchall()    
      form = Works()
      if form.validate_on_submit():
-        cur.execute('select type_u,username from users where id=%s',(current_user.id,))
+        cur.execute('select type_u,username from Пользователи where id=%s',(current_user.id,))
         r = cur.fetchall()
         if r[0][0] == 'Преподаватель':
             cur.execute('insert into НаучнаяРаботаПрепод values (%s,%s)',(form.names.data,r[0][1],))
