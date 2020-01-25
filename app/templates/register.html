@@ -40,7 +40,7 @@
             {{ form.email.label }}<br>
             {{ form.email(size=32) }}
             {% for error in form.email.errors %}
-             <span style="color: red;">Это поле необходимо заполнить!</span>
+             <span style="color: red;">Неподходящий вид почты!</span>
             {% endfor %}
         </p>
 
