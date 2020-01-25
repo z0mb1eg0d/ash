@@ -160,7 +160,10 @@ def add_work():
         if us is None:
             flash('Вы не можете заявить работу с такой темой на указанную конференцию!')
             return redirect('add_work')
-        cur.execute('insert into НаучнаяРабота values (%s,%s);',(form.title.data,user1[0],))
+        cur.execute('select * from НаучнаяРабота where Название = %s and ФИОНаучрук = %s;',(form.title.data,user1[0],))
+        us = cur.fetchone()
+        if us is None:
+         cur.execute('insert into НаучнаяРабота values (%s,%s);',(form.title.data,user1[0],))
         cur.execute('insert into ТемаНаучнаяРабота values (%s,%s);',(form.title.data,form.theme.data,))
         cur.execute('select Дата from ПроведениеКонференции where НазваниеКонференции = %s;',(form.conference.data,))
         us = cur.fetchone()
@@ -209,7 +212,7 @@ def works():
       s_number = cur.fetchone()
       cur.execute('select distinct НаучнаяРабота.Название, ТемаНаучнаяРабота.НазваниеТемы, НаучнаяРабота.ФИОНаучрук from НаучнаяРабота, ТемаНаучнаяРабота where НаучнаяРабота.Название = ТемаНаучнаяРабота.НазваниеРаботы and НаучнаяРабота.Название not in (select Название from СтудентНаучнаяРабота where №Зачетки = %s);',(s_number,))
      elif r[0][0] == 'Преподаватель':
-      cur.execute('select distinct НаучнаяРабота.Название, ТемаНаучнаяРабота.НазваниеТемы, НаучнаяРабота.ФИОНаучрук from НаучнаяРабота, ТемаНаучнаяРабота where НаучнаяРабота.Название = ТемаНаучнаяРабота.НазваниеРаботы and НаучнаяРабота.Название not in (select Название from НаучнаяРаботаПрепод where ФИО = %s);',(r[0][1],))
+      cur.execute('select distinct НаучнаяРабота.Название, ТемаНаучнаяРабота.НазваниеТемы, НаучнаяРабота.ФИОНаучрук from НаучнаяРабота, ТемаНаучнаяРабота where НаучнаяРабота.Название = ТемаНаучнаяРабота.НазваниеРаботы and НаучнаяРабота.Название not in (select Название from НаучнаяРаботаПрепод where ФИО = %s union select Название from НаучнаяРабота where ФИОНаучрук = %s );',(r[0][1],r[0][1],))
      else:
         cur.execute('select distinct НаучнаяРабота.Название, ТемаНаучнаяРабота.НазваниеТемы, НаучнаяРабота.ФИОНаучрук from НаучнаяРабота, ТемаНаучнаяРабота where НаучнаяРабота.Название = ТемаНаучнаяРабота.НазваниеРаботы;')
      w = cur.fetchall()    
