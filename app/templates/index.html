@@ -86,6 +86,7 @@
        </form>
        <form>
         <div style="display: none">
+        {{ form.hidden_tag() }}
         {{ form.grant }}
         {{ form.s_num }}
         {{ form.submit_s() }}
