@@ -57,7 +57,7 @@ def index():
          else:
              flash('Такая группа уже существует!')
              return redirect('/index')
-        if form.submit_s.data == True:
+        elif form.submit_s.data == True:
            if form.grant.data =='':
             form.grant.data = 0
            if int(form.grant.data) == 0:
@@ -137,7 +137,7 @@ def register():
         con.commit()
         id = user
         user_id = User(id)
-        flash ('%s, вы успешно зарегистрировались!', (form.username.data,))
+        flash ('Вы успешно зарегистрировались!')
         return redirect('login')
    return render_template('register.html', title='Регистрация', form=form, user=user)
 
