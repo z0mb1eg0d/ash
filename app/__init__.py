@@ -8,11 +8,11 @@ app.config.from_object(Config)
 login = LoginManager(app)
 login.login_view = 'login'
 con  = psycopg2.connect(
-    host="ec2-35-175-170-131.compute-1.amazonaws.com",
+    host="ec2-34-196-180-38.compute-1.amazonaws.com",
     port="5432",
-    database="dfoaqrqntpbkuq",
-    user="buhktexwpqtxcd",
-    password="436c1c1c9db17b72c8d4042cc306076740079714afd5fe7351f31bc0b2576d2e"
+    database="dbf9vo1gnasv5r",
+    user="ofkbtrwtokulrj",
+    password="9317df662346c8c6bba272688a69dfb89977841e35c39465e6578215f6ea17d6"
     )
 
 
