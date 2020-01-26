@@ -67,7 +67,7 @@ def index():
            con.commit()
            flash('Стипендия изменена!')
            return redirect('/index')
-        elif form.submit_st_del == True:
+        elif form.submit_st_del.data == True:
         	cur.execute('select email from Студент where №Зачетки = %s',(form.form.st_del_id,))
         	email = cur.fetchone()
         	cur.execute('delete from СтудентНаучнаяРабота where №Зачетки = %s',(form.form.st_del_id,))
