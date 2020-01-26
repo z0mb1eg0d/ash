@@ -80,13 +80,25 @@
         {% if user.role == 'Преподаватель'%}
           <h1>Работы, которыми вы руководите</h1>
           <table>
-           <tr><th>Название работы</th><th>Тема Работы</th></tr>
+           <tr><th>Название работы</th><th>Тема Работы</th><th>ФИО соучастника</th><th>Должнось</th></tr>
              {% for i in w1 %}           
              <tr>
               <td>{{i[0]}}</td>
-              <td>{{i[1]}}</td>          
+              <td>{{i[1]}}</td>
+              {% for j in w_prep %}
+              {% if i[0] == j[0]%}
+              <td>{{j[1]}}</td>
+              <td>Преподаватель</td>
+              {% endif %}
+              {% endfor %}
+              {% for j in w_st %}
+              {% if i[0] == j[0]%}
+              <td>{{j[1]}}</td>
+              <td>Студент</td>
+              {% endif %}
+              {% endfor %}                        
              </tr>     
-             {% endfor %}
+             {% endfor %}             
             </table>
         {% endif %}
        </form>

@@ -44,7 +44,11 @@ def index():
      w = cur.fetchall()
      if user1[2] == 'Преподаватель':
         cur.execute('select НазваниеРаботы, НазваниеТемы from ТемаНаучнаяРабота where НазваниеРаботы in (select Название from НаучнаяРабота where ФИОНаучрук = %s)',(user1[0],))
-     w1 = cur.fetchall()
+        w1 = cur.fetchall()
+        cur.execute('select * from НаучнаяРаботаПрепод')
+        w_prep = cur.fetchall()
+        cur.execute('select СтудентНаучнаяРабота.Название, Студент.ФИО where СтудентНаучнаяРабота.№Зачетки = Студент.№Зачетки')
+        w_st = cur.fetchall
      if form.validate_on_submit():
         if form.submit.data == True:
          cur.execute('select %s from Группа;',(form.group.data,))
@@ -76,7 +80,7 @@ def index():
         	con.commit()
      cur.execute('select ФИО, №Зачетки,Стипендия,№Группы from Студент order by ФИО')
      students = cur.fetchall()
-     return render_template('index.html', title='Научные работы', user=user, form=form, w=w, w1=w1, students=students)
+     return render_template('index.html', title='Научные работы', user=user, form=form, w=w, w1=w1, students=students, w_prep=w_prep, w_st=w_st)
 
 @app.route('/logout') 
 @login_required 
