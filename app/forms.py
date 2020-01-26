@@ -45,3 +45,5 @@ class IndexForm(FlaskForm):
   grant = StringField('Степуха')
   s_num = IntegerField('Зачетка')
   submit_s = SubmitField('Пык-Пык')
+  st_del_id = StringField('Кого убиваем')
+  submit_st_del = SubmitField('Чик')

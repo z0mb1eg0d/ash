@@ -33,7 +33,7 @@ def index():
      user1 = cur.fetchone()
      user = {'username' : user1[0], 'role' : user1[2]}
      form = IndexForm()
-     cur.execute('select * from Студент order by ФИО')
+     cur.execute('select ФИО, №Зачетки,Стипендия,№Группы from Студент order by ФИО')
      students = cur.fetchall()
      if user1[2] == 'Студент':
       cur.execute('select №Зачетки from Студент where ФИО = %s',(user1[0],))
@@ -67,6 +67,13 @@ def index():
            con.commit()
            flash('Стипендия изменена!')
            return redirect('/index')
+        elif form.submit_st_del == True:
+        	cur.execute('select email from Студент where №Зачетки = %s',(form.form.st_del_id,))
+        	email = cur.fetchone()
+        	cur.execute('delete from СтудентНаучнаяРабота where №Зачетки = %s',(form.form.st_del_id,))
+        	cur.execute('delete from Студент where №Зачетки = %s',(form.form.st_del_id,))
+        	cur.execute('delete from Пользователи where email = %s',(email,))
+        	con.commit()
      return render_template('index.html', title='Научные работы', user=user, form=form, w=w, w1=w1, students=students)
 
 @app.route('/logout') 
@@ -117,7 +124,7 @@ def register():
             flash('Вы не полностью заполнили формуу!')
             return redirect('register')
          else:
-            cur.execute('insert into Преподаватель (ФИО, №Кафедры, Должность, Звание) values (%s,%s,%s,%s);',(form.username.data,form.department_number.data,form.position.data, form.rank.data))
+            cur.execute('insert into Преподаватель (email, ФИО, №Кафедры, Должность, Звание) values (%s,%s,%s,%s,%s);',(form.email.data,form.username.data,form.department_number.data,form.position.data, form.rank.data))
             con.commit()
         if form.role.data == 'Студент':
             cur.execute('select №Группы from Группа where №Группы = %s',(form.group_num.data,))
@@ -129,7 +136,7 @@ def register():
              flash('Такой группы не существует!')
              return redirect('register')
             else:
-             cur.execute('insert into Студент (ФИО, №Зачетки, №Группы) values (%s,%s,%s);',(form.username.data,form.record_num.data,form.group_num.data))
+             cur.execute('insert into Студент (email, ФИО, №Зачетки, №Группы) values (%s,%s,%s,%s);',(form.email.data,form.username.data,form.record_num.data,form.group_num.data))
              con.commit()
         cur.execute('insert into Пользователи (username, pass_hash, email, type_u) values (%s,%s,%s,%s);',(form.username.data,generate_password_hash(form.password1.data),form.email.data,form.role.data))
         cur.execute('select id from Пользователи where email = %s',(form.username.data,))
