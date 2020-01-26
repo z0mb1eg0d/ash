@@ -48,7 +48,7 @@ def index():
         cur.execute('select * from НаучнаяРаботаПрепод')
         w_prep = cur.fetchall()
         cur.execute('select СтудентНаучнаяРабота.Название, Студент.ФИО from СтудентНаучнаяРабота, Студент where СтудентНаучнаяРабота.№Зачетки = Студент.№Зачетки')
-        w_st = cur.fetchall
+        w_st = cur.fetchall()
      if form.validate_on_submit():
         if form.submit.data == True:
          cur.execute('select %s from Группа;',(form.group.data,))
