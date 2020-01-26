@@ -74,6 +74,8 @@ def index():
         	cur.execute('delete from Студент where №Зачетки = %s',(form.st_del_id.data,))
         	cur.execute('delete from Пользователи where email = %s',(email,))
         	con.commit()
+     cur.execute('select ФИО, №Зачетки,Стипендия,№Группы from Студент order by ФИО')
+     students = cur.fetchall()
      return render_template('index.html', title='Научные работы', user=user, form=form, w=w, w1=w1, students=students)
 
 @app.route('/logout') 
