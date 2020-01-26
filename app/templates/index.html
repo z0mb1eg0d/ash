@@ -24,6 +24,11 @@
                  document.getElementById("{{form.grant.id}}").value=x[0].value;
                  document.getElementById("{{form.s_num.id}}").value=val;
                  document.querySelector("input[id=submit_s]").click();            
+          }
+          function c(val){
+            x = document.getElementsByClassName(val);
+            document.getElementById("{{form.st_del_id.id}}").value=val;
+            document.querySelector("input[id=submit_st_del]").click();
           }            
        </script>
        {% extends "base.html" %}
@@ -54,7 +59,8 @@
             {% endif %}
             <td><input class="{{i[0]}} in1" id="{{i[1]}}" type="button" value="Изменить" onclick="b(this.id)" style="display: none"></td>           
             <td class="{{i[0]}} in1" id="{{i[1]}}" style="display: none"><input class="{{i[1]}}" type="" name=""></</td>
-            <td><input class=" in" id="{{i[0]}}" type="button" value="Изменить стипендию" onclick="a(this.id)"></td>           
+            <td><input class=" in" id="{{i[0]}}" type="button" value="Изменить стипендию" onclick="a(this.id)"></td>
+            <td><input class=" in1" id="{{i[1]}}" type="button" value="Отчислить" onclick="с(this.id)"></td>            
          </tr>         
         {% endfor %}
         </table>
@@ -90,6 +96,13 @@
         {{ form.grant }}
         {{ form.s_num }}
         {{ form.submit_s() }}
+        </div>
+       </form>
+       <form action="" method="post" novalidate>
+        <div style="display: none">
+        {{ form.hidden_tag() }}
+        {{ form.st_del_id() }}
+        {{ form.submit_st_del() }}
         </div>
        </form>
        {% endblock %}
