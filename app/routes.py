@@ -70,8 +70,8 @@ def index():
         elif form.submit_st_del.data == True:
         	cur.execute('select email from Студент where №Зачетки = %s',(form.form.st_del_id,))
         	email = cur.fetchone()
-        	cur.execute('delete from СтудентНаучнаяРабота where №Зачетки = %s',(form.form.st_del_id,))
-        	cur.execute('delete from Студент where №Зачетки = %s',(form.form.st_del_id,))
+        	cur.execute('delete from СтудентНаучнаяРабота where №Зачетки = %s',(form.st_del_id,))
+        	cur.execute('delete from Студент where №Зачетки = %s',(form.st_del_id,))
         	cur.execute('delete from Пользователи where email = %s',(email,))
         	con.commit()
      return render_template('index.html', title='Научные работы', user=user, form=form, w=w, w1=w1, students=students)
