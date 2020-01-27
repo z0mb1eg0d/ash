@@ -35,7 +35,7 @@ def index():
      if user1[2] == 'Студент':
       cur.execute('select №Группы from Студент where ФИО = %s',(user1[0],))
      st_gr = cur.fetchone()
-     user = {'username' : user1[0], 'role' : user1[2], 'group' : st_gr}
+     user = {'username' : user1[0], 'role' : user1[2], 'group' : st_gr[0]}
      form = IndexForm()
      cur.execute('select ФИО, №Зачетки,Стипендия,№Группы from Студент order by ФИО')
      students = cur.fetchall()
@@ -134,7 +134,10 @@ def register():
            return redirect('register')
         if form.role.data == 'Преподаватель':
          if form.position.data == "" or form.department_number.data == "":
-            flash('Вы не полностью заполнили формуу!')
+            flash('Вы не полностью заполнили форму!')
+            return redirect('register')
+         elif type(form.department_number.data != int):
+            flash('Номер кафедры указан неверно!')
             return redirect('register')
          else:
             cur.execute('insert into Преподаватель (email, ФИО, №Кафедры, Должность, Звание) values (%s,%s,%s,%s,%s);',(form.email.data,form.username.data,form.department_number.data,form.position.data, form.rank.data))
