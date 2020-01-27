@@ -33,7 +33,7 @@ def index():
      cur.execute('select username, email, type_u from Пользователи where id = %s',(current_user.id,))
      user1 = cur.fetchone()
      if user1[2] == 'Студент':
-      cur.execute('select №Группы from Студент where ФИО = %s',(user1[0],))
+      cur.execute('select №Группы from Студент where email = %s',(user1[1],))
      st_gr = cur.fetchone()
      user = {'username' : user1[0], 'role' : user1[2], 'group' : st_gr[0]}
      form = IndexForm()
@@ -136,7 +136,7 @@ def register():
          if form.position.data == "" or form.department_number.data == "":
             flash('Вы не полностью заполнили форму!')
             return redirect('register')
-         elif type(form.department_number.data != int):
+         elif type(form.department_number.data == int):
             flash('Номер кафедры указан неверно!')
             return redirect('register')
          else:
