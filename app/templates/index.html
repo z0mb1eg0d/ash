@@ -35,11 +35,11 @@
        {% block content %}
        <p>Имя пользователя: {{user.username}}</p>
        <p>Тип пользователя: {{user.role}}</p>
-       {% if user.role = 'Студент' %}
-       <p>Группа: {{user.group}}</p>
+       {% if user.role == 'Студент' %}
+        <p>Группа: {{user.group}}</p>
        {% endif %}
        {% if user.role != 'Работник деканата'%}
-       <h1>Работы, в которых вы принимаете участие</h1> 
+        <h1>Работы, в которых вы принимаете участие</h1> 
        {% endif %}         
        <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
