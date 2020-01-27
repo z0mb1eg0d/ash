@@ -32,9 +32,10 @@ cur = con.cursor()
 def index():
      cur.execute('select username, email, type_u from Пользователи where id = %s',(current_user.id,))
      user1 = cur.fetchone()
+     st_gr = cur.fetchone()
      if user1[2] == 'Студент':
       cur.execute('select №Группы from Студент where email = %s',(user1[1],))
-     st_gr = cur.fetchone()
+      st_gr = cur.fetchone()
      user = {'username' : user1[0], 'role' : user1[2], 'group' : st_gr[0]}
      form = IndexForm()
      cur.execute('select ФИО, №Зачетки,Стипендия,№Группы from Студент order by ФИО')
