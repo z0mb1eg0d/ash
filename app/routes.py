@@ -16,6 +16,7 @@ class User(UserMixin):
   self.id = id 
   self.role = str
   self.username = str
+  self.group = str
  def __repr__(self): 
   return "%d/%s/%s/%s/%d" % (self.id) 
 
@@ -31,7 +32,10 @@ cur = con.cursor()
 def index():
      cur.execute('select username, email, type_u from Пользователи where id = %s',(current_user.id,))
      user1 = cur.fetchone()
-     user = {'username' : user1[0], 'role' : user1[2]}
+     if user1[2] == 'Студент':
+      cur.execute('select №Группы from Студент where ФИО = %s',(user1[0],))
+     st_gr = cur.fetchone()
+     user = {'username' : user1[0], 'role' : user1[2], 'group' : st_gr}
      form = IndexForm()
      cur.execute('select ФИО, №Зачетки,Стипендия,№Группы from Студент order by ФИО')
      students = cur.fetchall()
