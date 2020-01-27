@@ -42,6 +42,9 @@ def index():
      elif user1[2] == 'Преподаватель':
       cur.execute('select НаучнаяРабота.Название, ТемаНаучнаяРабота.НазваниеТемы, НаучнаяРабота.ФИОНаучрук from НаучнаяРабота, ТемаНаучнаяРабота where НаучнаяРабота.Название = ТемаНаучнаяРабота.НазваниеРаботы and НаучнаяРабота.Название in (select Название from НаучнаяРаботаПрепод where ФИО = %s);',(user1[0],))  
      w = cur.fetchall()
+     w1 = cur.fetchall()
+     w_prep = cur.fetchall()
+     w_st = cur.fetchall()
      if user1[2] == 'Преподаватель':
         cur.execute('select НазваниеРаботы, НазваниеТемы from ТемаНаучнаяРабота where НазваниеРаботы in (select Название from НаучнаяРабота where ФИОНаучрук = %s)',(user1[0],))
         w1 = cur.fetchall()
