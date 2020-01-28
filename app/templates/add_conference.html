@@ -19,7 +19,7 @@
             {{ form.number.label }}<br>
             {{ form.number(size=32) }}
             {% for error in form.number.errors %}
-           	 <span style="color: red;">Это поле необходимо заполнить</span>
+           	 <span style="color: red;">Вы не заполнили поле, либо ввели не чилсо!</span>
             {% endfor %}
          </p>
          <p>

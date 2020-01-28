@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, DateField
 from wtforms.validators import DataRequired, Email
 
 class LoginForm(FlaskForm):
@@ -30,9 +30,9 @@ class AddWorkForm(FlaskForm):
 
 class AddConferenceForm(FlaskForm):
   title = StringField('Название Конференции', validators=[DataRequired()]) 
-  number = StringField('Номер Конференции', validators=[DataRequired()])
+  number = IntegerField('Номер Конференции', validators=[DataRequired()])
   theme = StringField('Тема Конференции', validators=[DataRequired()])
-  date = StringField('Дата Проведения', validators=[DataRequired()])
+  date = DateField('Дата Проведения', format='%Y.%m.%d' , validators=[DataRequired()])
   submit = SubmitField('Добавить Конференцию')
 
 class Works(FlaskForm):
