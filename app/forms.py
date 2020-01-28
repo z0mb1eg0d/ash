@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, DateField
-from wtforms.validators import DataRequired, Email
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, DateField, DecimalField
+from wtforms.validators import DataRequired, Email, Optional
 
 class LoginForm(FlaskForm):
     username = StringField('Почта', validators=[DataRequired()])
@@ -16,10 +16,10 @@ class RegisterForm(FlaskForm):
    password2 = PasswordField('Повторите Пароль', validators=[DataRequired()])
    submit = SubmitField('Регистрация')
    position = StringField('Должность', validators=[])
-   department_number = StringField('№ Кафедры', validators=[])
+   department_number = DecimalField('№ Кафедры', validators=[Optional()])
    rank = StringField('Звание', validators=[])
-   record_num = StringField('№ Зачетки', validators=[])
-   group_num = StringField('№ Группы', validators=[])
+   record_num = IntegerField('№ Зачетки', validators=[Optional()])
+   group_num =IntegerField('№ Группы', validators=[Optional()])
 
 class AddWorkForm(FlaskForm):
   title = StringField('Название работы', validators=[DataRequired()])
@@ -32,7 +32,7 @@ class AddConferenceForm(FlaskForm):
   title = StringField('Название Конференции', validators=[DataRequired()]) 
   number = IntegerField('Номер Конференции', validators=[DataRequired()])
   theme = StringField('Тема Конференции', validators=[DataRequired()])
-  date = DateField('Дата Проведения', format='%Y.%m.%d' , validators=[DataRequired()])
+  date = DateField('Дата Проведения (Г.М.Д)', format='%Y.%m.%d' , validators=[DataRequired()])
   submit = SubmitField('Добавить Конференцию')
 
 class Works(FlaskForm):
@@ -40,7 +40,7 @@ class Works(FlaskForm):
   names = StringField()
 
 class IndexForm(FlaskForm):
-  group = StringField('Номер группы')
+  group = IntegerField('Номер группы')
   submit = SubmitField('Добавить группу')
   grant = StringField('Степуха')
   s_num = IntegerField('Зачетка')
@@ -49,3 +49,5 @@ class IndexForm(FlaskForm):
   submit_st_del = SubmitField('Чик')
   gr_del_num = IntegerField()
   gr_del = SubmitField('Чик группу')
+  prep_del = StringField()
+  prep_del_s = SubmitField('Чик препода')

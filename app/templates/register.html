@@ -81,15 +81,20 @@
             {{form.record_num.label}}<br>
             {{form.record_num(size=32)}}
             {% for error in form.record_num.errors %}
-             <span style="color: red;">Это поле необходимо заполнить!</span>         
+             <span style="color: red;">Данные введены не корректно!</span>         
             {% endfor %}
         </p>
 
         <p id="s2" style="display: none;">
             {{form.group_num.label}}<br>
-            {{form.group_num(size=32)}}
+            <select name="group_num">
+              <option disabled selected>Выберите группу</option>
+             {% for i in gr %}
+              <option value = "{{i[0]}}">{{i[0]}}</option>
+             {% endfor %}
+            </select>
             {% for error in form.group_num.errors %}
-             <span style="color: red;">Это поле необходимо заполнить!</span>         
+             <span style="color: red;">Данные введены не корректно!</span>         
             {% endfor %}
         </p>
 

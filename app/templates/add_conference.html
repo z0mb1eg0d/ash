@@ -33,7 +33,7 @@
             {{ form.date.label }}<br>
             {{ form.date(size=32) }}
             {% for error in form.date.errors %}
-           	 <span style="color: red;">Это поле необходимо заполнить</span>
+           	 <span style="color: red;">Это поле заполненно некоректно</span>
             {% endfor %}
          </p>
          <p>{{ form.submit() }}</p>

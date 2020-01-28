@@ -97,11 +97,25 @@ def index():
             con.commit()
           else:
             flash('В этой группе еще продолжают учиться студенты!')
+        elif form.prep_del_s.data == True:
+         cur.execute('delete from НаучнаяРаботаПрепод where ФИО = %s',(form.prep_del.data,))
+         cur.execute('select Название from НаучнаяРабота where ФИОНаучрук = %s',(form.prep_del.data,))
+         prep_del = cur.fetchone()
+         if prep_del is not None:
+          cur.execute('delete from СтудентНаучнаяРабота where Название in (select Название from НаучнаяРабота where ФИОНаучрук = %s)',(form.prep_del.data,))
+          cur.execute('delete from Участие where НазваниеРаботы in (select Название from НаучнаяРабота where ФИОНаучрук = %s)',(form.prep_del.data,))
+          cur.execute('delete from ТемаНаучнаяРабота where НазваниеРаботы in (select Название from НаучнаяРабота where ФИОНаучрук = %s)',(form.prep_del.data,))
+          cur.execute('delete from НаучнаяРабота where ФИОНаучрук = %s',(form.prep_del.data,))
+         cur.execute('delete from Преподаватель where ФИО = %s',(form.prep_del.data,))
+         cur.execute('delete from Пользователи where username = %s',(form.prep_del.data,))
+         flash('Преподаватель %s уволен!',(form.prep_del.data))
      cur.execute('select ФИО, №Зачетки,Стипендия,№Группы from Студент order by ФИО')
      students = cur.fetchall()
+     cur.execute('select * from Преподаватель')
+     prep = cur.fetchall()
      cur.execute('select * from Группа order by №Группы')
      gr = cur.fetchall()
-     return render_template('index.html', title='Научные работы', user=user, form=form, w=w, w1=w1, students=students, w_prep=w_prep, w_st=w_st, gr=gr)
+     return render_template('index.html', title='Научные работы', user=user, form=form, w=w, w1=w1, students=students, w_prep=w_prep, w_st=w_st, gr=gr, prep=prep)
 
 @app.route('/logout') 
 @login_required 
@@ -140,6 +154,8 @@ def register():
         return redirect('index')
    user = [None,None]
    form = RegisterForm()
+   cur.execute('select * from Группа order by №Группы')
+   gr = cur.fetchall()
    if form.validate_on_submit():
         cur.execute('select email from Пользователи where email = %s;',(form.email.data,))
         check_user = cur.fetchone()
@@ -150,7 +166,7 @@ def register():
          if form.position.data == "" or form.department_number.data == "":
             flash('Вы не полностью заполнили форму!')
             return redirect('register')
-         elif type(form.department_number.data == int):
+         elif type(form.department_number.data) != int:
             flash('Номер кафедры указан неверно!')
             return redirect('register')
          else:
@@ -176,7 +192,7 @@ def register():
         user_id = User(id)
         flash ('Вы успешно зарегистрировались!')
         return redirect('login')
-   return render_template('register.html', title='Регистрация', form=form, user=user)
+   return render_template('register.html', title='Регистрация', form=form, user=user, gr=gr)
 
 @app.route('/add_work', methods=['GET', 'POST'])
 @login_required

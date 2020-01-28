@@ -34,6 +34,11 @@
             x = document.getElementsByClassName(val);
             document.getElementById("{{form.gr_del_num.id}}").value=val;
             document.querySelector("input[id=gr_del]").click();
+          }
+          function e(val){
+            x = document.getElementsByClassName(val);
+            document.getElementById("{{form.prep_del.id}}").value=val;
+            document.querySelector("input[id=prep_del_s]").click();
           }            
        </script>
        {% extends "base.html" %}
@@ -51,15 +56,32 @@
         {% if user.role == 'Работник деканата'%}
         {{form.group.label}}
         {{form.group}}
-        {{form.submit()}}<br>
+        {{form.submit()}}
+        {% for error in form.group.errors %}
+        <span style="color: red;">Такую группу нельзя создать!</span>
+        {% endfor %}<br>
         <p>
+        <h2>Группы</h2>
         <table>
-         <tr>Группы</tr>
+         <tr>Номер</tr>
         {% for i in gr %}
          <tr>
           <td>{{i[0]}}</td>
-          <td><input id="{{i[0]}}" type="button" value="Удалить группу" onclick="d(this.id)"><td>
+          <td><input id="{{i[0]}}" type="button" value="Удалить группу" onclick="d(this.id)"></td>
          </tr>
+        {% endfor %}
+        </table>    
+        <h2>Преподаватели</h2>
+        <table>
+          <tr><th>Имя преподавателя</th><th>№ Кафедры</th><th>Должность</th><th>Звание</th></tr>
+          {% for i in prep %}
+          <tr>
+            <td>{{i[1]}}</td>
+            <td>{{i[2]}}</td>
+            <td>{{i[3]}}</td>
+            <td>{{i[4]}}</td>
+            <td><input id="{{i[1]}}" type="button" value="Уволить" onclick="e(this.id)"></td>
+          </tr>      
         {% endfor %}
         </table>
         <h2>Студенты</h2>
@@ -148,6 +170,13 @@
         {{ form.hidden_tag() }}
         {{ form.gr_del_num }}
         {{ form.gr_del }}
+        </div>
+       </form>
+       <form action="" method="post" novalidate>
+        <div style="display: none">
+        {{ form.hidden_tag() }}
+        {{ form.prep_del }}
+        {{ form.prep_del_s }}
         </div>
        </form>
        {% endblock %}
