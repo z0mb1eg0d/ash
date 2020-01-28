@@ -47,3 +47,5 @@ class IndexForm(FlaskForm):
   submit_s = SubmitField('Пык-Пык')
   st_del_id = StringField('Кого убиваем')
   submit_st_del = SubmitField('Чик')
+  gr_del_num = IntegerField()
+  gr_del = SubmitField('Чик группу')
