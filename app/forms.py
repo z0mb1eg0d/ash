@@ -16,7 +16,7 @@ class RegisterForm(FlaskForm):
    password2 = PasswordField('Повторите Пароль', validators=[DataRequired()])
    submit = SubmitField('Регистрация')
    position = StringField('Должность', validators=[])
-   department_number = DecimalField('№ Кафедры', validators=[Optional()])
+   department_number = IntegerField('№ Кафедры', validators=[Optional()])
    rank = StringField('Звание', validators=[])
    record_num = IntegerField('№ Зачетки', validators=[Optional()])
    group_num =IntegerField('№ Группы', validators=[Optional()])
