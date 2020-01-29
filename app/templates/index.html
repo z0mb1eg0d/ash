@@ -106,6 +106,7 @@
         </table>
         {% endif %}
         {% if user.role != 'Работник деканата'%}
+        {% if w != [] %}
         <table>
            <tr><th>Название работы</th><th>Тема Работы</th><th>ФИО Науч.рук.</th></tr>
              {% for i in w %}           
@@ -116,9 +117,13 @@
              </tr>         
             {% endfor %}
         </table>
+        {% else %}
+        <h3>Вы не принимаете участия в научных работах!</h3>
+        {% endif %} 
         {% endif %}
         {% if user.role == 'Преподаватель'%}
           <h1>Работы, которыми вы руководите</h1>
+          {% if w1 != [] %}
           <table>
            <tr><th>Название работы</th><th>Тема Работы</th><th>ФИО соучастника</th><th>Должнось</th></tr>
              {% for i in w1 %}           
@@ -148,6 +153,9 @@
               {% endfor %}    
              {% endfor %}             
             </table>
+            {% else %}
+            <h3>Вы не руководите работами!</h3>
+            {% endif %}
         {% endif %}
        </form>
        <form action="" method="post" novalidate>

@@ -16,11 +16,19 @@
     <tr><th>Название работы</th><th>Тема Работы</th><th>ФИО Науч.рук.</th></tr>
     {% for i in w %}
     <tr>
-        <td>{{i[0]}}</td>
-        <td>{{i[1]}}</td>
-        <td>{{i[2]}}</td>
-        {% if r[0][0] != 'Работник деканата' %}        
-        <td><input id="{{i[0]}}" type="button" value="Принять участие" onclick="a(this.id)"></td>
+        <td>{{ i[0] }}</td>
+        <td>{{ i[1] }}</td>
+        <td>{{ i[2] }}</td>
+        {% if r[0][0] != 'Работник деканата' %}
+        {% if r[0][1] != i[2] %}
+        {% if i[0] not in check %}      
+           <td><input id="{{i[0]}}" type="button" value="Принять участие" onclick="a(this.id)"></td>
+        {% else %}
+           <td>Вы уже принимаетет участие в этой работе!</td>        
+        {% endif %}
+        {% else %}
+        <td>Вы руководите этой работой!</td>
+        {% endif %} 
         {% endif %}        
     </tr>
     {% endfor %}    

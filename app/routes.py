@@ -263,12 +263,13 @@ def works():
      if r[0][0] == 'Студент':
       cur.execute('select №Зачетки from Студент where ФИО = %s',(r[0][1],))
       s_number = cur.fetchone()
-      cur.execute('select distinct НаучнаяРабота.Название, ТемаНаучнаяРабота.НазваниеТемы, НаучнаяРабота.ФИОНаучрук from НаучнаяРабота, ТемаНаучнаяРабота where НаучнаяРабота.Название = ТемаНаучнаяРабота.НазваниеРаботы and НаучнаяРабота.Название not in (select Название from СтудентНаучнаяРабота where №Зачетки = %s);',(s_number,))
+     cur.execute('select distinct НаучнаяРабота.Название, ТемаНаучнаяРабота.НазваниеТемы, НаучнаяРабота.ФИОНаучрук from НаучнаяРабота, ТемаНаучнаяРабота where НаучнаяРабота.Название = ТемаНаучнаяРабота.НазваниеРаботы;')
+     w = cur.fetchall()
+     if r[0][0] == 'Студент':
+      cur.execute('select * from СтудентНаучнаяРабота')
      elif r[0][0] == 'Преподаватель':
-      cur.execute('select distinct НаучнаяРабота.Название, ТемаНаучнаяРабота.НазваниеТемы, НаучнаяРабота.ФИОНаучрук from НаучнаяРабота, ТемаНаучнаяРабота where НаучнаяРабота.Название = ТемаНаучнаяРабота.НазваниеРаботы and НаучнаяРабота.Название not in (select Название from НаучнаяРаботаПрепод where ФИО = %s union select Название from НаучнаяРабота where ФИОНаучрук = %s );',(r[0][1],r[0][1],))
-     else:
-        cur.execute('select distinct НаучнаяРабота.Название, ТемаНаучнаяРабота.НазваниеТемы, НаучнаяРабота.ФИОНаучрук from НаучнаяРабота, ТемаНаучнаяРабота where НаучнаяРабота.Название = ТемаНаучнаяРабота.НазваниеРаботы;')
-     w = cur.fetchall()    
+      cur.execute('select Название from НаучнаяРаботаПрепод where ФИО = %s',(r[0][1],))
+     check = cur.fetchone()    
      form = Works()
      if form.validate_on_submit():
         cur.execute('select type_u,username from Пользователи where id=%s',(current_user.id,))
@@ -279,4 +280,4 @@ def works():
             cur.execute('insert into СтудентНаучнаяРабота values (%s,%s)',(form.names.data,s_number,))
         con.commit()
         return redirect('/index')
-     return render_template('works.html', title='Принять участие в научной работе', user=user, w=w, form=form, r=r)
+     return render_template('works.html', title='Принять участие в научной работе', user=user, w=w, form=form, r=r, check=check)
